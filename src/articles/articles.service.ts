@@ -7,60 +7,36 @@ import { ChatGptService } from './chat-gpt.service';
 export class ArticlesService {
   constructor(private chatGptService: ChatGptService) {}
 
-  public async refactorArticle(
-    articleDto: ArticleDto,
-  ): Promise<ArticleResponseDto> {
-    const responseDto = new ArticleResponseDto();
+  public async refactorArticle(articleDto: ArticleDto) {
+    const responseStr = await this.chatGptService.generateResponse(
+      `
+      construa um objeto com a estrutura:
+      {
+        "title": string,
+        "shortDescription": string,
+        "content": string,
+        "tags": string
+      }
 
-    responseDto.title = await this.chatGptService.generateResponse(
-      `Escreva em outras palavras sem perder o sentido a seguinte afirmação: ${articleDto.title}`,
-      50,
-    );
-
-    responseDto.shortDescription = await this.chatGptService.generateResponse(
-      `Escreva em outras palavras sem perder o sentido a seguinte afirmação: ${articleDto.shortDescription}`,
-      200,
-    );
-
-    responseDto.content = await this.chatGptService.generateResponse(
-      `Reescreva sem perder o sentido, com 800 palavras em média, colocando em uma estrutura de html com tags "h2, p, ul, li" o seguitne conteúdo: ${articleDto.content}. `,
-      800,
-    );
-
-    responseDto.tags = await this.createTags(
-      responseDto.title,
-      responseDto.shortDescription,
-    );
-
-    responseDto.mesmoSentido = await this.validate(
-      articleDto.content,
-      responseDto.content,
-    );
-
-    return responseDto;
-  }
-
-  private async validate(original: string, gerado: string) {
-    return await this.chatGptService
-      .generateResponse(
-        `
-      faça uma validação de congruência e se há o mesmo sentido entre as informações presentes nos seguitnes textos:
-      PRIMEIRO: ${original}.
-      SEGUNDO: ${gerado}.
-
-      me retorne apenas "true" ou "false"
+      preencha os campos da seguinte forma:
+      1) No campo "title" reescreva o seguinte texto: "${articleDto.title}" com o mesmo sentido e com palavras diferentes;
+      2) No campo "shortDescription" reescreva o seguinte texto: "${articleDto.shortDescription}" com o mesmo sentido e com palavras diferentes;
+      3) No campo "content" faça uma descriçao seguindo um modelo de um artigo noticiário com 600 palavras, do seguinte texto: "${articleDto.content}";
+      4) No campo "tags" verifique o seguinte texto: "${articleDto.content}" e crie uma sequencia de palavras relevantes deste conteúdo.
     `,
-        10,
-      )
-      .then((res) => res);
-  }
+      1300,
+    );
 
-  private async createTags(title: string, shortDescription: string) {
-    return await this.chatGptService
-      .generateResponse(
-        `Crie uma sequencia de palavras chaves referentes ao texto: ${shortDescription}`,
-        50,
-      )
-      .then((tags) => tags);
+    console.log(
+      'ArticlesService : refactorArticle : responseStr:',
+      responseStr,
+    );
+
+    const responseJson = JSON.parse(responseStr);
+    console.log(
+      'ArticlesService : refactorArticle : responseJson:',
+      responseJson,
+    );
+    return responseJson;
   }
 }

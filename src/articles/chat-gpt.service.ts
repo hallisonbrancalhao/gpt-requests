@@ -18,7 +18,7 @@ export class ChatGptService {
         .createCompletion({
           model: 'text-davinci-003',
           prompt: prompt,
-          temperature: 1.2,
+          temperature: 1.0,
           max_tokens: max_tokens,
         })
         .catch((error) => {
