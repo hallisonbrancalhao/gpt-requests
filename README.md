@@ -1,4 +1,4 @@
-# Documentação - Readme.md
+# Documentação
 
 Este arquivo Readme.md fornece informações sobre as classes `ArticlesController` e `ArticlesService` presentes no código fornecido.
 
