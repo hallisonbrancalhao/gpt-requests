@@ -24,3 +24,25 @@ refactorArticle(@Body() data: ArticleDto)
 
 A classe `ArticlesService` é responsável por fornecer os serviços relacionados a artigos. Ela possui uma dependência `ChatGptService` injetada por meio de sua classe construtora.
 
+### Métodos
+
+#### refactorArticle
+
+```typescript
+public async refactorArticle(articleDto: ArticleDto)
+```
+
+- Descrição: Este método é responsável por refatorar um artigo com base nos dados fornecidos. Ele chama o método `generateResponse` do serviço `ChatGptService` para gerar uma resposta refatorada.
+- Parâmetros:
+  - `articleDto`: Um objeto `ArticleDto` que contém os dados do artigo a ser refatorado.
+- Retorno: O método retorna um objeto JSON com os campos do artigo refatorado.
+
+#### Observações
+
+- O método `refactorArticle` faz uso do serviço `ChatGptService` para gerar uma resposta refatorada. O serviço é responsável por chamar uma API de geração de texto com base em uma determinada entrada.
+- O método `refactorArticle` gera uma entrada para a API de geração de texto com base nos dados fornecidos em `articleDto` e aguarda a resposta da API.
+- A resposta da API é convertida de uma string para um objeto JSON e retornada como resultado da refatoração.
+
+## Considerações Finais
+
+Este arquivo Readme.md fornece uma visão geral das classes `ArticlesController` e `ArticlesService` e de seus métodos. Ele pode ser utilizado como referência para entender a estrutura e o propósito dessas classes no contexto do projeto em questão.
