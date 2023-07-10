@@ -23,7 +23,7 @@ export class ArticlesService {
       3) No campo "content" faça uma descriçao seguindo um modelo de um artigo noticiário com 600 palavras,do seguinte texto: "${articleDto.content}, cuidado para nao colocar elementos que quebram um JSON";
       4) No campo "tags" verifique o seguinte texto: "${articleDto.content}" e crie uma sequencia de palavras relevantes deste conteúdo.
     `,
-      2000,
+      1800,
     );
     const responseJson = JSON.parse(responseStr);
     return responseJson;
